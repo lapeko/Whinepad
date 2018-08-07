@@ -12,6 +12,7 @@ function Actions(props){
 
 Actions.propTypes = {
 	types: ({types}, propName, componentName) => {
+		if (!types) return
 		if (Array.isArray(types) && types.every(el => AVAILABLE_TYPES.includes(el))) return
 		if (typeof types === 'string' && AVAILABLE_TYPES.includes(types)) return
 		return new Error(
@@ -19,6 +20,10 @@ Actions.propTypes = {
 		)
 	},
 	action: PropTypes.func
+}
+
+Actions.defaultProps = {
+	types: AVAILABLE_TYPES
 }
 
 export default Actions
