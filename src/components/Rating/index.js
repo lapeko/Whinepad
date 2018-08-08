@@ -63,7 +63,7 @@ Rating.propTypes = {
 Rating.defaultProps = {
 	maxRating: 5,
 	rating: 1,
-	onlyRead: false,
+	onlyRead: true,
 	isYourRating: false
 }
 

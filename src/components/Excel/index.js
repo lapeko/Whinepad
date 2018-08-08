@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
@@ -6,16 +6,12 @@ import classNames from 'classnames'
 import Rating from '../Rating'
 import Actions from '../Actions'
 
-class Excel extends Component{
+class Excel extends PureComponent{
 
 	constructor(props){
 		super(props)
 		this.state = {data: props.data, notSortedData: props.data, srcData: props.data, sortedColumn: -1, revers: false}
 		this._sort = this._sort.bind(this)
-	}
-
-	componentDidUpdate(){
-		// console.log(this.state)
 	}
 
 	_sort({target}){
@@ -40,7 +36,7 @@ class Excel extends Component{
 
 	render(){
 		return (
-			<table>
+			<table className={classNames('Excel', this.props.className)}>
 				<thead>
 					<tr>
 						{this.props.headers.map((item, idx) => 
@@ -57,7 +53,7 @@ class Excel extends Component{
 							<td>{el.year}</td>
 							<td>{el.grape}</td>
 							<td><Rating rating={el.rating} onlyRead={true}/></td>
-							<td><Actions action={this.props.action.bind(null, el.id)}/></td>
+							<td><Actions action={this.props.action.bind(null, el)}/></td>
 						</tr>)
 					}
 				</tbody>

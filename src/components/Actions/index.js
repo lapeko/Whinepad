@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Action from '../Action'
 
-const AVAILABLE_TYPES = ['info' ,'edit', 'delete']
+import AVAILABLE_TYPES from '../../../AVAILABLE_TYPES.json'
 
 function Actions(props){
 	const actions = props.types.map((type, idx) => <Action type={type} key={type} action={props.action}/>)
