@@ -1,0 +1,29 @@
+$color: #eee
+$marg: 20
+
+.Excel
+	width: calc(100vw - 40px)
+	border-collapse: collapse
+	margin: $marg + px
+
+	td, th
+		text-align: center
+		border: 2px solid $color
+		box-sizing: border-box
+		background-color: white
+
+	.orderChar
+		font-size: 24px
+		color: #FF8500//#024C68
+		text-shadow: 0px 1px 3px #888
+
+.Excel__edit
+	display: block
+	width: calc(100% - 2px)
+	font-size: 24px
+	font-family: serif
+	text-align: center
+	border: 1px solid #3AA6D0
+
+	&:focus
+		border: 2px solid #62B1D0

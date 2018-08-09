@@ -5,8 +5,8 @@ import './style'
 
 function Button(props){
 
-	const innerText = props.value ? props.value : props.children ? props.children : 'Ok'
-	let attributes = {className: classNames('Button', props.className), onClick: props.onClick}
+	const innerText = props.value ? props.value : props.isCancel ? 'Cancel' : props.children ? props.children : 'Ok'
+	let attributes = {className: classNames('Button', props.className, {btn: !props.isCancel}), onClick: props.onClick}
 	
 	return props.href
 		? <a {...attributes} href={props.href} >{innerText}</a>
@@ -15,6 +15,7 @@ function Button(props){
 
 Button.propTypes = {
 	href: PropTypes.string,
+	isCancel: PropTypes.bool,
 	onClick: PropTypes.func.isRequired
 }
 

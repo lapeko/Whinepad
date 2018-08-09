@@ -28,11 +28,26 @@ function Modal(props){
 			break
 		case AVAILABLE_TYPES[1] :
 			header = 'Edit item'
-			body   = ''
+			body   = Object.keys(props.item).map((key, idx) => {
+				const id = Math.random().toString(16).slice(2, 8)
+				if (key === 'id') return null
+				return (
+					<div key={idx} className="item">
+						<label htmlFor={id}>{key[0].toUpperCase() + key.slice(1)}:</label>
+						{key === 'rating'
+							? <Rating id={id} onlyRead={false} rating={props.item[key]}/>
+							: key === 'comment'
+								? <textarea className="data-textarea" type="text" id={id} defaultValue={props.item[key]}/>
+								: <input className="data-input" type="text" defaultValue={props.item[key]}/>
+						}
+					</div>
+				)
+			})
 			break
 		case AVAILABLE_TYPES[2] :
 			header = 'Confirm deletion'
-			body   = ''
+			body   = <div className="item"><div className="data">Are you sure you want to delete "{props.item.name}"?</div></div>
+			footer = [<Button key="0" onClick={props.close} isCancel/>, <Button key="1" onClick={() => {}}/>]
 			break
 	}
 

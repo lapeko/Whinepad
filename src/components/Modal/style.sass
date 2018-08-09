@@ -7,10 +7,8 @@
 	background-color: rgba(0,0,0,.7)
 
 	.Modal-window
-		width: 33%
+		width: 33vw
 		min-width: 350px
-		height: 80vh
-		min-height: 400px
 		position: fixed
 		top: 50%
 		left: 50%
@@ -21,7 +19,7 @@
 
 		.header, .footer
 			height: 50px
-			background-color: #A61D00
+			background-color: #024C68//#A61D00
 			line-height: 50px
 			text-align: center
 			border-top: 1px solid #3AA6D0
@@ -30,27 +28,43 @@
 
 		.footer
 			height: 100px
-			background-color: #A67600
+			background-color: #A61D00//#A67600
 			position: relative
+			text-align: right
+			line-height: 0
 
 		.body
 			color: black
-			min-height: 400px
-			height: calc(80vh - 150px)
+			max-height: calc(80vh - 150px)
 			background-color: white
 			overflow: auto
 			box-sizing: border-box
 
 			.item
+				width: calc(33vw - 8vw - 30px)
+				min-width: calc(350px - 8vw - 30px)
 				margin-top: 20px
 				margin-left: calc(4vw + 15px)
+
+				&:last-child
+					margin-bottom: 25px
 
 				label
 					color: #216278
 					font-size: 24px
 
-				.data
+				[class^=data]
+					display: block
 					text-align: left
 					color: black
-					font-size: 32px
-				
+					font-size: 24px
+					width: 100%
+
+
+				.data-input
+					padding: 0
+					border: 1px solid rgba(02, 77, 104, 0.3)
+
+				.data-textarea
+					font-size: 16px
+					border: 1px solid rgba(02, 77, 104, 0.3)
