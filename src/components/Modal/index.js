@@ -30,6 +30,18 @@ class Modal extends PureComponent{
 		}
 	}
 
+	addGrapeScrollListener(e){
+		const input = e.target
+		input.parentNode.parentNode.onscroll = (e) => {input.blur()}
+	}
+
+	removeGrapeScrollListener(e){
+		const bodyModal = e.target.parentNode.parentNode
+		if (bodyModal.onscroll) 
+			document.getElementById('grapes').focus()
+		bodyModal.onscroll = null
+	}
+
 	render(){
 		let header, body, footer
 		switch (this.props.type) {
@@ -68,8 +80,17 @@ class Modal extends PureComponent{
 										? <textarea rows={7} className="data-textarea" type="text" id={id} defaultValue={this.props.item[key]}/>
 										: key == 'grape'
 											? [
-												<input id={id} list={id + 1} key="0" className="data-input" type="text" defaultValue={this.props.item[key]}/>,
-												<datalist id={id + 1} key="1">
+												<input
+													onFocus={this.addGrapeScrollListener}
+													onBlur={this.removeGrapeScrollListener}
+													id={grapes}
+													list={id}
+													key="0"
+													className="data-input"
+													type="text"
+													defaultValue={this.props.item[key]}
+												/>,
+												<datalist id={id} key="1">
 													{grapes.map((grape, idx) => <option key={idx} value={grape}/>)}
 												</datalist>
 											]
@@ -111,8 +132,16 @@ class Modal extends PureComponent{
 										? <textarea rows={7} className="data-textarea" type="text" id={id}/>
 										: key == 'grape'
 											? [
-												<input id={id} list={id + 1} key="0" className="data-input" type="text"/>,
-												<datalist id={id + 1} key="1">
+												<input
+													id="grapes"
+													onFocus={this.addGrapeScrollListener}
+													onBlur={this.removeGrapeScrollListener}
+													list={id}
+													key="0"
+													className="data-input"
+													type="text"
+												/>,
+												<datalist id={id} key="1">
 													{grapes.map((grape, idx) => <option key={idx} value={grape}/>)}
 												</datalist>
 											]

@@ -56,7 +56,10 @@ class Excel extends Component{
 		})
 	}
 
-	getValFromColmn(object, num){ return object[this.props.headers[num].toLowerCase()].toLowerCase() }
+	getValFromColmn(object, num){
+		const value = object[this.props.headers[num].toLowerCase()]
+		return typeof value == 'string' ? value.toLowerCase() : value
+	}
 
 	_db_click({target}){
 		this.setState({
