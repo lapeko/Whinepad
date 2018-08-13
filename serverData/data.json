@@ -1,18 +1,18 @@
 [
 	{
 		"id": 1,
-		"name": "kompot",
-		"year": 2009,
-		"grape": "birlo",
+		"name": "Castiglioni",
+		"year": 2016,
+		"grape": "Merlot",
 		"rating": 4,
 		"comment": "Very cool drink"
 	},
 	{
 		"id": 2,
-		"name": "braga",
-		"year": 2018,
-		"grape": "trash metall",
+		"name": "Chateau Pey La Tour",
+		"year": 2015,
+		"grape": "Cabernet Sauvignon",
 		"rating": 3,
-		"comment": "It is the best what was in my life It is the best what was in my life It is the best what was in my life It is the best what was in my life It is the best what was in my life It is the best what was in my life "	
+		"comment": "I've liked"	
 	}
 ]

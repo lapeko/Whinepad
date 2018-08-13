@@ -14,7 +14,7 @@ let conf = {
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
-		filename: NODE_ENV == 'development' ? '[name].js' : '[name].[chunkhash].js',
+		filename: /*NODE_ENV == 'development' ?*/ '[name].js'/* : '[name].[chunkhash].js'*/,
 		chunkFilename: NODE_ENV == 'development' ? '[id].js' : '[id].[chunkhash].js',
 		publicPath: '/dist/',
 		library: '[name]'
@@ -34,7 +34,7 @@ let conf = {
 			NODE_ENV: JSON.stringify(NODE_ENV)
 		}),
 		new ExtractTextPlugin(
-			NODE_ENV == 'development' ? './css/main.css' : './css/main.[hash].css',
+			/*NODE_ENV == 'development' ? */'./css/main.css'/* : './css/main.[hash].css'*/,
 			{allChunks: true, disable: NODE_ENV == 'development'}
 		),
 		new AssetsPlugin({

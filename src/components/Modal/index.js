@@ -7,6 +7,7 @@ import Button from '../Button'
 import Rating from '../Rating'
 import AVAILABLE_TYPES from '../../../serverData/AVAILABLE_TYPES.json'
 import shemaData from '../../../serverData/shemaData.json'
+import grapes from '../../../serverData/grapes.json'
 
 class Modal extends PureComponent{
 
@@ -65,7 +66,14 @@ class Modal extends PureComponent{
 									/>
 									: key === 'comment'
 										? <textarea rows={7} className="data-textarea" type="text" id={id} defaultValue={this.props.item[key]}/>
-										: <input className="data-input" type="text" defaultValue={this.props.item[key]}/>
+										: key == 'grape'
+											? [
+												<input id={id} list={id + 1} key="0" className="data-input" type="text" defaultValue={this.props.item[key]}/>,
+												<datalist id={id + 1} key="1">
+													{grapes.map((grape, idx) => <option key={idx} value={grape}/>)}
+												</datalist>
+											]
+											: <input className="data-input" type="text" defaultValue={this.props.item[key]}/>
 							}
 						</div>
 					)
@@ -92,7 +100,7 @@ class Modal extends PureComponent{
 						<div key={idx} className="item" onChange={((key, event) => this._change(key, event)).bind(this, key)}>
 							<label htmlFor={id}>{key[0].toUpperCase() + key.slice(1)}:</label>
 							{key === 'year'	
-								? <input className="data-input" type="number" defaultValue={this.state.newItem.year}/>
+								? <input id={id} className="data-input" type="number" defaultValue={this.state.newItem.year}/>
 								: key === 'rating'
 									? <Rating
 										change={ this._change.bind(this, key) }
@@ -101,7 +109,14 @@ class Modal extends PureComponent{
 									/>
 									: key === 'comment'
 										? <textarea rows={7} className="data-textarea" type="text" id={id}/>
-										: <input className="data-input" type="text"/>
+										: key == 'grape'
+											? [
+												<input id={id} list={id + 1} key="0" className="data-input" type="text"/>,
+												<datalist id={id + 1} key="1">
+													{grapes.map((grape, idx) => <option key={idx} value={grape}/>)}
+												</datalist>
+											]
+											: <input id={id} className="data-input" type="text"/>
 							}
 						</div>
 					)

@@ -2,4 +2,3 @@ $ cat .gitignore
 /node_modules/
 /dist/
 /public/
-/src/App.js

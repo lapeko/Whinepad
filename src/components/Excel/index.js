@@ -134,6 +134,7 @@ class Excel extends Component{
 
 	_removeItem(item){
 		const [a, b, c] = this.getCopyDataArrays().map(arr => { arr.splice(this.returnIndexById(arr, item.id), 1); return arr })
+		localStorage.setItem('srcData', JSON.stringify(c))
 		this.setState({data: a, filteredData: b, srcData: c, showModal: false})
 	}
 
@@ -204,6 +205,7 @@ class Excel extends Component{
 			option 2
 			*/
 			const filteredData = self.getFilteredData(self.state.findText, copyArr)
+			localStorage.setItem('srcData', JSON.stringify(copyArr))
 			self.setState({
 				srcData: copyArr,
 				filteredData,
