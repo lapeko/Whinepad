@@ -4,17 +4,20 @@
 	font-family: serif
 	width: 80px
 	padding: 10px 20px
-	color: white /* #024E68 */
+	color: white
 	text-align: center
-	position: relative
-	right: 25px
-	top: 50%
-	transform: translateY(-50%)
 	cursor: pointer
 	transition: 50ms
 	font-size: 24px
+	margin: 25px
 	line-height: 24px
 	text-shadow: 1px 3px 15px #333
+
+	&.left
+		float: left
+
+	&.right
+		float: right
 
 	&:hover
 		text-shadow: 0px 1px 8px #333
