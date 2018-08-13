@@ -10,7 +10,19 @@ class Rating extends Component{
 		this.state = {
 			rating:			this.props.rating > this.props.maxRating ? this.props.maxRating : this.props.rating,
 			tmpRating:		this.props.rating > this.props.maxRating ? this.props.maxRating : this.props.rating,
-			isYourRating:	this.props.isYourRating
+			isYourRating:	this.props.isYourRating,
+			didUpdateRating: false
+		}
+	}
+
+	componentWillReceiveProps(newProps){
+		this.props.rating !== newProps.rating && this.setState({rating: newProps.rating, tmpRating: newProps.rating})
+	}
+
+	componentDidUpdate(){
+		if (this.state.didUpdateRating && this.props.change){
+			this.props.change(this.state.rating)
+			this.setState({didUpdateRating: false})
 		}
 	}
 
@@ -23,7 +35,7 @@ class Rating extends Component{
 	}
 
 	_click(num){
-		this.setState({rating: num + 1, isYourRating: true})
+		this.setState({rating: num + 1, isYourRating: true, didUpdateRating: true})
 	}
 
 	render(){
