@@ -5,9 +5,9 @@ import './style.sass'
 
 import Button from '../Button'
 import Rating from '../Rating'
+import InputModal from '../InputModal'
 import AVAILABLE_TYPES from '../../../serverData/AVAILABLE_TYPES.json'
 import shemaData from '../../../serverData/shemaData.json'
-import grapes from '../../../serverData/grapes.json'
 
 class Modal extends PureComponent{
 
@@ -30,16 +30,24 @@ class Modal extends PureComponent{
 		}
 	}
 
-	addGrapeScrollListener(e){
-		const input = e.target
-		input.parentNode.parentNode.onscroll = (e) => {input.blur()}
-	}
-
-	removeGrapeScrollListener(e){
-		const bodyModal = e.target.parentNode.parentNode
-		if (bodyModal.onscroll) 
-			document.getElementById('grapes').focus()
-		bodyModal.onscroll = null
+	componentDidMount(){
+		document.body.onkeydown = (e) => {
+			if (e.keyCode !== 27 && e.keyCode !== 13) return
+			switch(this.props.type){
+				case AVAILABLE_TYPES[0]:
+					this.props.close()
+					break
+				case AVAILABLE_TYPES[1]:
+					e.keyCode === 13 ? this.props.edit(this.state.newItem) : this.props.close()
+					break
+				case AVAILABLE_TYPES[2]:
+					e.keyCode === 13 ? this.props.remove() : this.props.close()
+					break
+				default:
+					e.keyCode === 13 ? this.props.create(this.state.newItem) : this.props.close()
+					break
+			}
+		}
 	}
 
 	render(){
@@ -47,56 +55,34 @@ class Modal extends PureComponent{
 		switch (this.props.type) {
 			case AVAILABLE_TYPES[0] :
 				header = 'Item info'
-				body   = Object.keys(this.props.item).map((key, idx) => {
+				body   = Object.keys(this.props.item).map((type, idx) => {
 					const id = Math.random().toString(16).slice(2, 8)
-					if (key === 'id' || !this.props.item[key]) return null
-					return (
-						<div key={idx} className="item">
-							<label htmlFor={id}>{key[0].toUpperCase() + key.slice(1)}:</label>
-							<div id={id} className="data">{key === 'rating' ? <Rating rating={this.props.item[key]}/> : this.props.item[key]}</div>
-						</div>
+					if (type == 'id' || !this.props.item[type]) return null
+					return(
+						<InputModal
+							key={idx}
+							type={type}
+							value={this.props.item[type]}
+							mode={this.props.type}
+						/>
 					)
 				})
 				footer = <Button onClick={this.props.close} right/>
 				break
 			case AVAILABLE_TYPES[1] :
 				header = 'Edit item'
-				body   = Object.keys(this.props.item).map((key, idx) => {
+				body   = Object.keys(this.props.item).map((type, idx) => {
 					const id = Math.random().toString(16).slice(2, 8)
-					if (key === 'id') return null
+					if (type === 'id') return null
 					return (
-						<div key={idx} className="item" onChange={((key, event) => this._change(key, event)).bind(this, key)}>
-							<label htmlFor={id}>{key[0].toUpperCase() + key.slice(1)}:</label>
-							{key === 'year'	
-								? <input className="data-input" type="number" defaultValue={this.props.item[key]}/>
-								: key === 'rating'
-									? <Rating
-										change={ this._change.bind(this, key) }
-										id={id}
-										onlyRead={false}
-										rating={this.props.item[key]}
-									/>
-									: key === 'comment'
-										? <textarea rows={7} className="data-textarea" type="text" id={id} defaultValue={this.props.item[key]}/>
-										: key == 'grape'
-											? [
-												<input
-													onFocus={this.addGrapeScrollListener}
-													onBlur={this.removeGrapeScrollListener}
-													id={grapes}
-													list={id}
-													key="0"
-													className="data-input"
-													type="text"
-													defaultValue={this.props.item[key]}
-												/>,
-												<datalist id={id} key="1">
-													{grapes.map((grape, idx) => <option key={idx} value={grape}/>)}
-												</datalist>
-											]
-											: <input className="data-input" type="text" defaultValue={this.props.item[key]}/>
-							}
-						</div>
+						<InputModal
+							key={idx}
+							type={type}
+							value={this.props.item[type]}
+							mode={this.props.type}
+							onChange={((type, event) => this._change(type, event)).bind(this, type)}
+							changeRating={this._change.bind(this, type)}
+						/>
 					)
 				})
 				footer = [
@@ -106,7 +92,7 @@ class Modal extends PureComponent{
 				break
 			case AVAILABLE_TYPES[2] :
 				header = 'Confirm deletion'
-				body   = <div className="item"><div className="data">Are you sure you want to delete "{this.props.item.name}"?</div></div>
+				body   = <InputModal mode={this.props.type} value={this.props.item.name}/>
 				footer = [
 					<Button key="0" onClick={this.props.close} isCancel/>,
 					<Button key="1" onClick={this.props.remove}  right/>
@@ -114,40 +100,17 @@ class Modal extends PureComponent{
 				break
 			default :
 				header = 'Add new item'
-				body   = shemaData.map((key, idx) => {
+				body   = shemaData.map((type, idx) => {
 					const id = Math.random().toString(16).slice(2, 8)
-					if (key === 'id') return null
+					if (type === 'id') return null
 					return (
-						<div key={idx} className="item" onChange={((key, event) => this._change(key, event)).bind(this, key)}>
-							<label htmlFor={id}>{key[0].toUpperCase() + key.slice(1)}:</label>
-							{key === 'year'	
-								? <input id={id} className="data-input" type="number" defaultValue={this.state.newItem.year}/>
-								: key === 'rating'
-									? <Rating
-										change={ this._change.bind(this, key) }
-										id={id}
-										onlyRead={false}
-									/>
-									: key === 'comment'
-										? <textarea rows={7} className="data-textarea" type="text" id={id}/>
-										: key == 'grape'
-											? [
-												<input
-													id="grapes"
-													onFocus={this.addGrapeScrollListener}
-													onBlur={this.removeGrapeScrollListener}
-													list={id}
-													key="0"
-													className="data-input"
-													type="text"
-												/>,
-												<datalist id={id} key="1">
-													{grapes.map((grape, idx) => <option key={idx} value={grape}/>)}
-												</datalist>
-											]
-											: <input id={id} className="data-input" type="text"/>
-							}
-						</div>
+						<InputModal
+							key={idx}
+							type={type}
+							mode={this.props.type}
+							onChange={((type, event) => this._change(type, event)).bind(this, type)}
+							changeRating={this._change.bind(this, type)}
+						/>
 					)
 				})
 				footer = [
@@ -161,7 +124,10 @@ class Modal extends PureComponent{
 		footer = <div className="footer">{footer}</div>
 
 		return (
-			<div className={classNames('Modal', this.props.className)} onClick={e => e.target.className === 'Modal' && this.props.close()}>
+			<div
+				className={classNames('Modal', this.props.className)}
+				onClick={e => e.target.className === 'Modal' && this.props.close()}
+			>
 				<div className="Modal-window">
 					{header}
 					{body}

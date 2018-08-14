@@ -141,7 +141,7 @@ class Excel extends Component{
 		this.setState({data: a, filteredData: b, srcData: c, showModal: false})
 	}
 
-	_actionClick(item, type, event){
+	_clickOnActions(item, type, event){
 		this.setState({
 			showModal: true,
 			modalProps: {
@@ -275,7 +275,7 @@ class Excel extends Component{
 									:	<td onDoubleClick={this._db_click.bind(this)}>{el.grape}</td>
 								}
 								<td><Rating rating={el.rating} onlyRead={true}/></td>
-								<td><Actions action={this._actionClick.bind(this, el)}/></td>
+								<td><Actions action={this._clickOnActions.bind(this, el)}/></td>
 							</tr>
 						)
 					})}
